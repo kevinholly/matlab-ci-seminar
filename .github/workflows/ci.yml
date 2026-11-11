@@ -1,0 +1,51 @@
+name: MATLAB CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# The workflow reads source and publishes run artifacts, not repository content.
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Test and package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up MATLAB R2026b
+        uses: matlab-actions/setup-matlab@v3
+        with:
+          release: R2026b
+
+      # The same buildfile.m runs locally and on the GitHub runner.
+      # In R2026b, buildtool opens the containing MATLAB project automatically.
+      - name: Check, test, and package
+        uses: matlab-actions/run-build@v3
+        with:
+          tasks: package
+          build-options: -report artifacts/build-report
+
+      # Keep diagnostics when a test fails. An early setup failure may produce none.
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: matlab-ci-reports
+          path: artifacts/
+          if-no-files-found: warn
+
+      # Failed checks or tests must not produce a downloadable toolbox artifact.
+      - name: Upload toolbox
+        if: success()
+        uses: actions/upload-artifact@v7
+        with:
+          name: calendar-utilities-toolbox
+          path: release/*.mltbx
+          if-no-files-found: error

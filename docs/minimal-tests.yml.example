@@ -1,0 +1,27 @@
+# Teaching example only: this file is outside .github/workflows and does not run.
+# Compare it with the active build workflow; do not enable both for the seminar.
+name: MATLAB tests only
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: matlab-actions/setup-matlab@v3
+        with:
+          release: R2026b
+      - uses: matlab-actions/run-tests@v3
+        with:
+          source-folder: src
+          select-by-folder: tests
+          code-coverage-metrics: statement

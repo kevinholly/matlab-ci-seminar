@@ -1,0 +1,18 @@
+name = "MATLAB CI Seminar"
+
+[folders]
+path = ["src"]
+test = ["tests"]
+
+[project]
+summary = "A small MATLAB project for learning continuous integration with GitHub Actions."
+
+[[package]]
+name = "CalendarUtilities"
+display-name = "Calendar Utilities"
+version = "1.0.0"
+id = "a7017195-e414-4786-bfc1-9d91fba3055e"
+package-root = "src"
+output-folder = "release"
+release-compatibility = ">=26.2.*"
+summary = "Gregorian day-of-year example for a MATLAB CI seminar."

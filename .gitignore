@@ -1,0 +1,10 @@
+# Generated build state, reports, and packages
+.buildtool/
+artifacts/
+release/
+
+# Local editor and operating-system files
+*.asv
+*.m~
+.DS_Store
+Thumbs.db
