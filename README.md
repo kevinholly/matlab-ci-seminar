@@ -5,6 +5,12 @@ A seminar example for a 60-minute beginner session: 25 minutes of slides,
 MATLAB, through Git and a GitHub pull request, to automated checks, tests, and a
 downloadable toolbox.
 
+Presentation materials: [editable PowerPoint](presentation/Continuous-Integration-with-MATLAB.pptx),
+[PDF handout](presentation/Continuous-Integration-with-MATLAB.pdf),
+[offline HTML slides](presentation/slides.html), and
+[presenter notes](presentation/presenter-notes.md). Download the HTML file before
+opening it in a browser. The presentation includes 18 slides with speaker notes.
+
 The example calculates the day number within a year from an ISO date string:
 
 ```matlab
