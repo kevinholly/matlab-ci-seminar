@@ -1,15 +1,14 @@
 # Continuous Integration with MATLAB R2026b
 
-A seminar example for a 60-minute beginner session: 25 minutes of slides,
-30 minutes of demonstration, and 5 minutes of questions. Follow one change from
-MATLAB, through Git and a GitHub pull request, to automated checks, tests, and a
-downloadable toolbox.
+Learn how to use GitHub Actions to check MATLAB code, run tests, and build a
+downloadable toolbox. Follow a code change from local testing through a GitHub
+pull request, and explore how MATLAB Projects, TOML configuration, build tasks,
+and YAML workflows work together.
 
 Presentation materials: [editable PowerPoint](presentation/Continuous-Integration-with-MATLAB.pptx),
-[PDF handout](presentation/Continuous-Integration-with-MATLAB.pdf),
-[offline HTML slides](presentation/slides.html), and
-[presenter notes](presentation/presenter-notes.md). Download the HTML file before
-opening it in a browser. The presentation includes 18 slides with speaker notes.
+[PDF handout](presentation/Continuous-Integration-with-MATLAB.pdf), and
+[offline HTML slides](presentation/slides.html). Download the HTML file before
+opening it in a browser.
 
 The example calculates the day number within a year from an ISO date string:
 
@@ -17,41 +16,49 @@ The example calculates the day number within a year from an ISO date string:
 dayofyear("1900-03-01")
 ```
 
-The correct result is `60`. The prepared teaching baseline deliberately returns
-`61` for this case: its leap-year rule considers divisibility by four but omits
-the century exception. The lesson is that passing tests establish the behaviors
-you tested; they do not establish that every input is correct.
+The correct result is `60`. The starting version deliberately returns `61`
+because its leap-year rule omits the century exception. Adding a regression test
+exposes the defect; correcting the rule makes the test pass. This illustrates
+why a passing test suite can still miss important cases.
 
 ## Start locally
 
-Use MATLAB R2026b. The main example needs base MATLAB; it does not require
-MATLAB Test, MATLAB Compiler, or MATLAB Coder. Open this repository folder in
-MATLAB, then run:
+Use MATLAB R2026b. The example requires base MATLAB; MATLAB Test, MATLAB Compiler,
+and MATLAB Coder are not required.
+
+To start with the complete implementation, clone the `solution` branch:
+
+```sh
+git clone --branch solution https://github.com/kevinholly/matlab-ci-seminar.git
+cd matlab-ci-seminar
+```
+
+Open the repository folder in MATLAB, then run:
 
 ```matlab
 openProject(pwd)
 buildtool package -report artifacts/build-report
 ```
 
-`buildtool` runs the task dependencies before packaging. The final solution has
+`buildtool` runs code analysis and tests before packaging. The solution has
 five passing tests. Generated files include the build report at
 `artifacts/build-report/index.html` and the toolbox at
 `release/CalendarUtilities.mltbx`. Generated files stay out of source control.
 
-## Prepared teaching states
+## Explore the example versions
 
-The delivered checkout is `solution`, so opening the repository starts with
-correct code. Switch to `main` during presenter preparation to begin the lesson.
+Compare the checkpoints to see how a new test reveals a defect and how the fix
+changes the build result. Use `solution` for the complete implementation.
 
 | Branch or tag | Meaning | Expected tests |
 | --- | --- | --- |
-| `main`, `seminar-start` | Starting implementation with the intentional century-year defect | 3 pass |
+| `seminar-start` | Starting implementation with the intentional century-year defect | 3 pass |
 | `seminar-red` | Add the 1900 regression test to expose the defect | 3 pass, 1 fail |
 | `solution`, `seminar-fixed` | Correct Gregorian rule and add the year-2000 safeguard | 5 pass |
 
-Tags preserve the prepared states. After the live pull request is merged, `main`
-will contain the corrected implementation. For another presentation, use a new
-repository or a fresh branch from `seminar-start`; do not rewrite shared history.
+The tags preserve each checkpoint as the repository evolves. To work through
+the example yourself, create a branch from `seminar-start`, add the 1900 test,
+and then implement the fix and the year-2000 safeguard.
 
 ## Four files with different jobs
 
@@ -64,41 +71,37 @@ repository or a fresh branch from `seminar-start`; do not rewrite shared history
 
 Source lives in `src/dayofyear.m`. The Project makes the source available on the
 MATLAB path. YAML orchestrates the runner; the MATLAB build file defines the
-work; tests determine whether the behavior meets expectations. TOML is project
-configuration, not a second GitHub workflow.
+work; tests determine whether the behavior meets expectations.
 
-## Run the seminar
+## GitHub Actions workflow
 
-- [GitHub setup and rehearsal](docs/github-setup.md): publish a public repository,
-  enable the workflow, and prepare the demonstration.
-- [30-minute demo walkthrough](docs/demo-walkthrough.md): presenter actions,
-  observations, and recovery steps.
-- [Minimal test-only YAML](docs/minimal-tests.yml.example): a shorter teaching
-  example. Its location and extension keep it inactive.
-
-There is one active workflow. It runs for pushes to `main`, pull requests into
-`main`, and manual requests. It uses a GitHub-hosted Linux runner with MATLAB
+The workflow is configured for pushes to `main`, pull requests into `main`, and
+manual requests. It uses a GitHub-hosted Linux runner with MATLAB
 R2026b, invokes the same build as the local command, uploads reports even when
 tests fail, and uploads the toolbox only after success. Creating a local branch
-does not run CI. Opening its pull request starts the first branch check; later
-pushes to that open pull request trigger new checks.
+does not run CI. The pull-request trigger covers opening the pull request and
+pushing subsequent changes to it.
 
-The final artifact demonstrates a build ready for delivery. This repository does
-not publish a GitHub Release, deploy software, or install the toolbox on another
-machine automatically.
+Read the [complete workflow](.github/workflows/ci.yml), or compare it with the
+[minimal test-only YAML](docs/minimal-tests.yml.example), which calls
+`run-tests` directly. The minimal example is kept outside the workflows folder
+so it does not create a second active workflow.
 
-## R2026b talking points
+Successful runs provide a toolbox artifact for download. Publishing a release
+or deploying that artifact would be a further step in a delivery pipeline.
 
-The presentation distinguishes features introduced in R2026b from established
-workflows. R2026b topics include TOML-based project/package configuration, the
-package build task, build reports, and task output caching. The MATLAB build tool
-itself was introduced in R2022b. R2025a improved automatic project opening,
-including builds located in project subfolders. GitHub action version updates
-are independent of MATLAB release features.
+## What's new in R2026b
+
+R2026b adds TOML-based project and package configuration, declared project test
+folders, the built-in `PackageTask`, HTML build reports, and task output caching.
+The Connections and Pull Requests panels support working with GitHub from MATLAB.
+
+The MATLAB build tool itself was introduced in R2022b. R2025a improved automatic
+project opening, including builds located in project subfolders. GitHub action
+version updates are independent of MATLAB release features.
 
 The optional `type-size` coverage metric is new in R2026b and requires MATLAB
-Test. It is not enabled in this base-MATLAB example. Statement and function
-coverage are sufficient for the introductory discussion.
+Test. This example uses statement coverage, which is available in base MATLAB.
 
 ## Licensing and references
 
@@ -118,8 +121,6 @@ itself configure a GitHub-hosted runner's license.
 - [R2026b matlab.toml reference](https://www.mathworks.com/help/releases/R2026b/matlab/ref/matlab.toml.html)
 - [R2026b buildtool reference](https://www.mathworks.com/help/releases/R2026b/matlab/ref/buildtool.html)
 
-The date-calculation teaching idea comes from the MathWorks CI examples. This
-repository uses a smaller ISO-date interface for the seminar. The build creates
-local artifacts; GitHub runs and publication must be verified separately during
-rehearsal. See [LICENSE](LICENSE) for the inherited MathWorks redistribution
-terms; a copy in `src/` accompanies the toolbox.
+The date-calculation example is adapted from the MathWorks CI examples and uses
+a smaller ISO-date interface. See [LICENSE](LICENSE) for the inherited MathWorks
+redistribution terms; a copy in `src/` accompanies the toolbox.
