@@ -19,8 +19,9 @@ end
 dateValue = datetime(dateText,InputFormat="yyyy-MM-dd");
 daysPerMonth = [31 28 31 30 31 30 31 31 30 31 30 31];
 
-% Teaching baseline: this rule deliberately omits the century exception.
-if mod(dateValue.Year,4) == 0
+% Gregorian years divisible by 100 are leap years only if divisible by 400.
+if mod(dateValue.Year,4) == 0 && ...
+        (mod(dateValue.Year,100) ~= 0 || mod(dateValue.Year,400) == 0)
     daysPerMonth(2) = 29;
 end
 
