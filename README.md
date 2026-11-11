@@ -86,9 +86,9 @@ machine automatically.
 The presentation distinguishes features introduced in R2026b from established
 workflows. R2026b topics include TOML-based project/package configuration, the
 package build task, build reports, and task output caching. The MATLAB build tool
-itself was introduced in R2022b; automatic opening of a build file's project
-dates to R2025a. GitHub action version updates are independent of MATLAB release
-features.
+itself was introduced in R2022b. R2025a improved automatic project opening,
+including builds located in project subfolders. GitHub action version updates
+are independent of MATLAB release features.
 
 The optional `type-size` coverage metric is new in R2026b and requires MATLAB
 Test. It is not enabled in this base-MATLAB example. Statement and function

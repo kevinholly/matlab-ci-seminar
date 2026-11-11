@@ -22,7 +22,8 @@ Show the three passing tests and `release/CalendarUtilities.mltbx`. State that
 the baseline contains a deliberate gap in its leap-year rule; green means the
 current tests passed. The next change will make that gap explicit.
 
-Open `matlab.toml` and point to the project path and package metadata. Show
+Right-click `matlab.toml` and select **Open as Text** to inspect the project path
+and package metadata; double-clicking the file opens the project. Show
 `src/dayofyear.m` and `tests/DayOfYearTest.m`. Explain the ISO input with a normal
 example:
 
@@ -99,7 +100,7 @@ git push -u origin demo/century-year
 
 In MATLAB R2026b, use **Push Changes dialog > Create Pull Request**. Select the
 GitHub remote and base branch `main`; use the title **Handle century years
-correctly**. Explain the source branch and target branch. If the connection is
+correctly**, and select **Draft**. Explain the source branch and target branch. If the connection is
 unavailable, use **GitHub repository > Pull requests > New pull request** with
 base `main` and compare `demo/century-year`.
 
@@ -169,7 +170,8 @@ has occurred.
 
 ## 25:00-28:00 — Merge, pull, and close the collaboration loop
 
-After the required checks pass, use **GitHub pull request > Merge pull request**
+After the required checks pass, mark the draft pull request **Ready for review**,
+then use **GitHub pull request > Merge pull request**
 and confirm the merge. Return to MATLAB, switch to `main`, and use **Pull** to
 bring the merged change into the local repository. Terminal equivalent:
 
