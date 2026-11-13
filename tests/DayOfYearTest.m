@@ -6,6 +6,8 @@ classdef DayOfYearTest < matlab.unittest.TestCase
     %       januaryFirst             - Start of a calendar year
     %       commonYearDecember31     - End of a common year
     %       ordinaryLeapYearMarch1   - Day after an ordinary leap February
+    %       century1900March1        - Century that is not a leap year
+    %       century2000March1        - Century that is a leap year
     %
     %   See also dayofyear, runtests, matlab.unittest.TestCase
 
@@ -34,5 +36,20 @@ classdef DayOfYearTest < matlab.unittest.TestCase
             testCase.verifyEqual(actual,61);
         end
 
+        function century1900March1(testCase)
+            %century1900March1 - Verify the Gregorian century exception
+            %   century1900March1(testCase) checks that 1900 is common.
+            dateText = "1900-03-01";
+            actual = dayofyear(dateText);
+            testCase.verifyEqual(actual,60);
+        end
+
+        function century2000March1(testCase)
+            %century2000March1 - Verify a century divisible by 400
+            %   century2000March1(testCase) checks that 2000 is leap.
+            dateText = "2000-03-01";
+            actual = dayofyear(dateText);
+            testCase.verifyEqual(actual,61);
+        end
     end
 end
