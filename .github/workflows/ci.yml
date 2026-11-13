@@ -24,6 +24,9 @@ jobs:
         with:
           release: R2026b
 
+      - name: Run all tests
+        uses: matlab-actions/run-tests@v2
+
       # The same buildfile.m runs locally and on the GitHub runner.
       # In R2026b, buildtool opens the containing MATLAB project automatically.
       - name: Check, test, and package
