@@ -1,5 +1,12 @@
 # Continuous Integration with MATLAB R2026b
 
+Badge when tests pass:
+
+   [![MATLAB](https://github.com/mathworks/ci-configuration-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/mathworks/ci-configuration-examples/actions/workflows/ci.yml) <br><br>
+Current Status:
+
+   [![MATLAB CI](https://github.com/kevinholly/matlab-ci-seminar/actions/workflows/ci.yml/badge.svg)](https://github.com/kevinholly/matlab-ci-seminar/actions/workflows/ci.yml)
+
 Learn how to use GitHub Actions to check MATLAB code, run tests, and build a
 downloadable toolbox. Follow a code change from local testing through a GitHub
 pull request, and explore how MATLAB Projects, TOML configuration, build tasks,
