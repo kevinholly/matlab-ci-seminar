@@ -5,11 +5,6 @@ downloadable toolbox. Follow a code change from local testing through a GitHub
 pull request, and explore how MATLAB Projects, TOML configuration, build tasks,
 and YAML workflows work together.
 
-Presentation materials: [editable PowerPoint](presentation/Continuous-Integration-with-MATLAB.pptx),
-[PDF handout](presentation/Continuous-Integration-with-MATLAB.pdf), and
-[offline HTML slides](presentation/slides.html). Download the HTML file before
-opening it in a browser.
-
 The example calculates the day number within a year from an ISO date string:
 
 ```matlab
